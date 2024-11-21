@@ -58,10 +58,13 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/TWS.png
-    - assets/take.png
-  #  - images/a_dot_ham.jpeg
+   assets:
+     - assets/TWS.png
+     - assets/take.png
+     - assets/tws.jpg
+     - assets/tumbler.jpg
+     - assets/charger.jpg
+  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -79,6 +82,9 @@ flutter:
       fonts:
         - asset: assets/fonts/Inter-Regular.ttf
         - asset: assets/fonts/Inter-Bold.ttf
+        
+         
+            
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
