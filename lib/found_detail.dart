@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    home: FoundDetailScreen(),
-    debugShowCheckedModeBanner: false,
-  ));
-}
+import 'package:lost_n_found/found_edit.dart';
+import 'package:lost_n_found/lost_screen.dart';
 
 class FoundDetailScreen extends StatelessWidget {
-  const FoundDetailScreen({super.key});
+  final String name;
+  final String category;
+  final String location;
+  final String date;
+  final String image;
+
+  const FoundDetailScreen(
+      {super.key,
+      required this.name,
+      required this.category,
+      required this.location,
+      required this.date,
+      required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,7 @@ class FoundDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          "TWS",
+          name,
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -29,10 +36,6 @@ class FoundDetailScreen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.yellow, size: 28),
-          onPressed: () {},
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,7 +44,7 @@ class FoundDetailScreen extends StatelessWidget {
           children: [
             Center(
               child: Image.asset(
-                'assets/TWS.png', // Path to your asset image
+                image, // Path to your asset image
                 width: screenWidth * 0.4, // 40% of the screen width
                 height: screenWidth * 0.4, // 40% of the screen width
               ),
@@ -52,7 +55,7 @@ class FoundDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: TextFormField(
-                initialValue: 'TWS',
+                initialValue: name,
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Name',
@@ -71,7 +74,7 @@ class FoundDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: TextFormField(
-                initialValue: 'Ruang 4101',
+                initialValue: location,
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Location',
@@ -90,7 +93,7 @@ class FoundDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: TextFormField(
-                initialValue: 'Elektronik',
+                initialValue: category,
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Category',
@@ -109,7 +112,7 @@ class FoundDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: TextFormField(
-                initialValue: '17 November 2024',
+                initialValue: date,
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Date',
@@ -140,7 +143,7 @@ class FoundDetailScreen extends StatelessWidget {
                     icon: Image.asset('assets/take.png'),
                     label: Text("Take"),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow,
+                      backgroundColor: Color.fromARGB(255, 255, 204, 0),
                       foregroundColor: Colors.black,
                       padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.06,
@@ -148,11 +151,23 @@ class FoundDetailScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FoundEditScreen(
+                                  name: name,
+                                  category: category,
+                                  location: location,
+                                  date: date,
+                                  image: image,
+                                )),
+                      );
+                    },
                     icon: Icon(Icons.edit, color: Colors.black),
                     label: Text("Edit"),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow,
+                      backgroundColor: Color.fromARGB(255, 255, 204, 0),
                       foregroundColor: Colors.black,
                       padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.06,

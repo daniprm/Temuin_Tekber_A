@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: FoundEditScreen(),
-    debugShowCheckedModeBanner: false,
-  ));
-}
-
 class FoundEditScreen extends StatelessWidget {
-  const FoundEditScreen({super.key});
+  final String name;
+  final String category;
+  final String location;
+  final String date;
+  final String image;
+
+  const FoundEditScreen(
+      {super.key,
+      required this.name,
+      required this.category,
+      required this.location,
+      required this.date,
+      required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +23,14 @@ class FoundEditScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.yellow),
+          icon: const Icon(Icons.arrow_back,
+              color: Color.fromARGB(255, 255, 204, 0)),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
-          'TWS',
+        title: Text(
+          name,
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
@@ -38,7 +44,7 @@ class FoundEditScreen extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
-                  'assets/TWS.png',
+                  image,
                   height: 150,
                   width: 150,
                   fit: BoxFit.cover,
@@ -46,15 +52,15 @@ class FoundEditScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            _buildInputField(label: 'Name', initialValue: 'TWS'),
+            _buildInputField(label: 'Name', initialValue: name),
             const SizedBox(height: 16),
-            _buildInputField(label: 'Location', initialValue: 'Ruang 4101'),
+            _buildInputField(label: 'Location', initialValue: location),
             const SizedBox(height: 16),
-            _buildInputField(label: 'Category', initialValue: 'Elektronik'),
+            _buildInputField(label: 'Category', initialValue: category),
             const SizedBox(height: 16),
             _buildInputField(
               label: 'Date',
-              initialValue: '17 November 2024',
+              initialValue: date,
               prefixIcon: Icons.calendar_today,
             ),
             const Spacer(),
@@ -66,8 +72,9 @@ class FoundEditScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.yellow,
-                    side: const BorderSide(color: Colors.yellow),
+                    foregroundColor: Color.fromARGB(255, 255, 204, 0),
+                    side: const BorderSide(
+                        color: Color.fromARGB(255, 255, 204, 0)),
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 24.0),
                   ),
@@ -79,7 +86,7 @@ class FoundEditScreen extends StatelessWidget {
                     // Tambahkan fungsi simpan di sini
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow,
+                    backgroundColor: Color.fromARGB(255, 255, 204, 0),
                     foregroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 24.0),

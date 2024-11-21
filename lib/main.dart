@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'found_input.dart'; // Import halaman baru
+import 'found_input.dart';
+import 'lost_screen.dart';
 
 void main() {
   runApp(const LostNFound());
@@ -12,7 +13,7 @@ class LostNFound extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Inter'),
+      theme: ThemeData.dark(),
       home: const HomeScreen(),
     );
   }
@@ -34,11 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(
                 color: Colors
                     .white))), // Kalo mau ngerjain homescreen, ntar tinggal buat file/class baru, trus panggil class nya di sini
-    const Center(
-        child: Text('Lost Screen',
-            style: TextStyle(
-                color: Colors
-                    .white))), // Kalo mau ngerjain lostscreen, ntar tinggal buat file/class baru, trus panggil class nya di sini
+    LostPage(), // Kalo mau ngerjain lostscreen, ntar tinggal buat file/class baru, trus panggil class nya di sini
     const FoundInputScreen(), // Halaman FoundInputScreen
   ];
 
