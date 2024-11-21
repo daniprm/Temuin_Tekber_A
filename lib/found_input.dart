@@ -25,14 +25,13 @@ class FoundInputScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const _CustomTextField(label: 'Name'),
+            const _CustomTextField(),
             const SizedBox(height: 38),
-            const _CustomTextField(label: 'Location'),
+            const _CustomTextField(),
             const SizedBox(height: 38),
-            const _CustomTextField(label: 'Category'),
+            const _CustomTextField(),
             const SizedBox(height: 38),
             const _CustomTextField(
-              label: 'Date',
               prefixIcon: Icons.calendar_today,
             ),
             const SizedBox(height: 22),
@@ -92,18 +91,16 @@ class FoundInputScreen extends StatelessWidget {
 }
 
 class _CustomTextField extends StatelessWidget {
-  final String label;
+  final String? label;
   final IconData? prefixIcon;
 
-  const _CustomTextField({required this.label, this.prefixIcon, super.key});
+  const _CustomTextField({this.label, this.prefixIcon, super.key});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       style: const TextStyle(color: Colors.white, height: 1),
       decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(color: Colors.white, fontSize: 14),
         prefixIcon:
             prefixIcon != null ? Icon(prefixIcon, color: Colors.white) : null,
         filled: true,
