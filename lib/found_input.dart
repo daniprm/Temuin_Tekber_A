@@ -6,7 +6,7 @@ class FoundInputScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
+      backgroundColor: const Color.fromARGB(247, 21, 21, 21),
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
@@ -15,21 +15,22 @@ class FoundInputScreen extends StatelessWidget {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 32, right: 32, top: 22),
+        padding: const EdgeInsets.only(left: 32, right: 32, top: 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const _CustomTextField(label: 'Name'),
-            const SizedBox(height: 22),
+            const SizedBox(height: 38),
             const _CustomTextField(label: 'Location'),
-            const SizedBox(height: 22),
+            const SizedBox(height: 38),
             const _CustomTextField(label: 'Category'),
-            const SizedBox(height: 22),
+            const SizedBox(height: 38),
             const _CustomTextField(
               label: 'Date',
               prefixIcon: Icons.calendar_today,
@@ -39,7 +40,7 @@ class FoundInputScreen extends StatelessWidget {
               'Upload Picture',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 17,
+                fontSize: 15,
               ),
             ),
             const SizedBox(height: 8),
@@ -64,19 +65,21 @@ class FoundInputScreen extends StatelessWidget {
             ),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.only(bottom: 150),
+              padding: const EdgeInsets.only(bottom: 60),
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 255, 204, 0),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
                 child: const Text(
                   'Add Item',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 17,
                   ),
                 ),
               ),
@@ -100,13 +103,31 @@ class _CustomTextField extends StatelessWidget {
       style: const TextStyle(color: Colors.white, height: 1),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.white, fontSize: 17),
+        labelStyle: const TextStyle(color: Colors.white, fontSize: 14),
         prefixIcon:
             prefixIcon != null ? Icon(prefixIcon, color: Colors.white) : null,
         filled: true,
         fillColor: const Color.fromRGBO(98, 98, 98, 1),
+        isDense: true, // Menjadikan TextField lebih ramping
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 17, // Padding vertikal lebih kecil
+          horizontal: 12, // Padding horizontal
+        ),
+        // Mengatur outline berwarna putih
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
+          borderSide:
+              const BorderSide(color: Colors.white, width: 1), // Outline putih
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(
+              color: Colors.white, width: 1), // Outline putih saat aktif
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(
+              color: Colors.white, width: 1), // Outline putih saat fokus
         ),
       ),
     );

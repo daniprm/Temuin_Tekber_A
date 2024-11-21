@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
+      backgroundColor: const Color.fromRGBO(21, 21, 21, 1),
       body: _children[_currentIndex], // Menampilkan halaman sesuai indeks
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
