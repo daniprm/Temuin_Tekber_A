@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'found_input.dart';
-import 'lost_screen.dart';
+import 'package:lost_n_found/home_page.dart';
+import 'package:lost_n_found/found_input.dart';
+import 'package:lost_n_found/lost_screen.dart';
 
 void main() {
   runApp(const LostNFound());
@@ -30,13 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-    const Center(
-        child: Text('Home Screen',
-            style: TextStyle(
-                color: Colors
-                    .white))), // Kalo mau ngerjain homescreen, ntar tinggal buat file/class baru, trus panggil class nya di sini
-    LostPage(), // Kalo mau ngerjain lostscreen, ntar tinggal buat file/class baru, trus panggil class nya di sini
-    const FoundInputScreen(), // Halaman FoundInputScreen
+    HomePage(), // Kalo mau ngerjain homescreen, ntar tinggal buat file/class baru, trus panggil class nya di sini
+    LostPage(),
+    FoundInputScreen(),
   ];
 
   void onTabTapped(int index) {
