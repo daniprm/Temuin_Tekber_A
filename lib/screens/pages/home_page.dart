@@ -98,8 +98,8 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         actions: <Widget>[
           TextButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Log Out'),
+            icon: const Icon(Icons.person),
+            label: const Text('Log Out'),
             onPressed: () async {
               await _auth.signOut();
             },
@@ -138,7 +138,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LostPage()),
+                        MaterialPageRoute(builder: (context) => const LostPage()),
                       );
                     },
                     child: Container(

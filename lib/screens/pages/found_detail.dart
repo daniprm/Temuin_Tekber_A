@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:temuin/screens/pages/found_edit.dart';
-import 'package:temuin/screens/pages/lost_screen.dart';
 
 class FoundDetailScreen extends StatelessWidget {
   final String name;
