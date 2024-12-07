@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lost_n_found/found_edit.dart';
-import 'package:lost_n_found/lost_screen.dart';
+import 'package:temuin/screens/pages/found_edit.dart';
+import 'package:temuin/screens/pages/lost_screen.dart';
 
 class FoundDetailScreen extends StatelessWidget {
   final String name;
@@ -29,7 +29,7 @@ class FoundDetailScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         title: Text(
           name,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -59,14 +59,14 @@ class FoundDetailScreen extends StatelessWidget {
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Name',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: const TextStyle(color: Colors.white),
                   filled: true,
                   fillColor: Colors.grey[800],
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
 
@@ -78,14 +78,14 @@ class FoundDetailScreen extends StatelessWidget {
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Location',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: const TextStyle(color: Colors.white),
                   filled: true,
                   fillColor: Colors.grey[800],
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
 
@@ -97,14 +97,14 @@ class FoundDetailScreen extends StatelessWidget {
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Category',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: const TextStyle(color: Colors.white),
                   filled: true,
                   fillColor: Colors.grey[800],
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
 
@@ -116,19 +116,19 @@ class FoundDetailScreen extends StatelessWidget {
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Date',
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: const TextStyle(color: Colors.white),
                   filled: true,
                   fillColor: Colors.grey[800],
-                  border: OutlineInputBorder(),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.symmetric(
                         horizontal: 16.0), // Adjust the padding as needed
                     child: Icon(Icons.calendar_today, color: Colors.white),
                   ),
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
 
@@ -141,9 +141,9 @@ class FoundDetailScreen extends StatelessWidget {
                   ElevatedButton.icon(
                     onPressed: () {},
                     icon: Image.asset('assets/take.png'),
-                    label: Text("Take"),
+                    label: const Text("Take"),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 255, 204, 0),
+                      backgroundColor: const Color.fromARGB(255, 255, 204, 0),
                       foregroundColor: Colors.black,
                       padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.06,
@@ -164,10 +164,10 @@ class FoundDetailScreen extends StatelessWidget {
                                 )),
                       );
                     },
-                    icon: Icon(Icons.edit, color: Colors.black),
-                    label: Text("Edit"),
+                    icon: const Icon(Icons.edit, color: Colors.black),
+                    label: const Text("Edit"),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 255, 204, 0),
+                      backgroundColor: const Color.fromARGB(255, 255, 204, 0),
                       foregroundColor: Colors.black,
                       padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.06,

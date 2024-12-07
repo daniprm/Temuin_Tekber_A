@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lost_n_found/found_detail.dart';
+import 'package:temuin/screens/pages/found_detail.dart';
 
 class LostPage extends StatelessWidget {
+  const LostPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +53,7 @@ class LostAndFoundItem extends StatelessWidget {
   final String date;
   final List<LostItem> items;
 
-  LostAndFoundItem({required this.date, required this.items});
+  const LostAndFoundItem({super.key, required this.date, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +63,15 @@ class LostAndFoundItem extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(date,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ),
-        Divider(thickness: 2, color: Colors.grey),
+        const Divider(thickness: 2, color: Colors.grey),
         ...items.map((item) => Column(
               children: [
                 ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
                   leading: Container(
                     width: 40,
                     height: 40,
@@ -85,16 +88,16 @@ class LostAndFoundItem extends StatelessWidget {
                     children: [
                       Text(
                         item.name,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         item.location,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                     ],
                   ),
-                  trailing: Icon(Icons.arrow_forward),
+                  trailing: const Icon(Icons.arrow_forward),
                   onTap: () {
                     Navigator.push(
                       context,

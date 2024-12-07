@@ -31,7 +31,7 @@ class FoundEditScreen extends StatelessWidget {
         ),
         title: Text(
           name,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -72,7 +72,7 @@ class FoundEditScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Color.fromARGB(255, 255, 204, 0),
+                    foregroundColor: const Color.fromARGB(255, 255, 204, 0),
                     side: const BorderSide(
                         color: Color.fromARGB(255, 255, 204, 0)),
                     padding: const EdgeInsets.symmetric(
@@ -86,7 +86,7 @@ class FoundEditScreen extends StatelessWidget {
                     // Tambahkan fungsi simpan di sini
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 255, 204, 0),
+                    backgroundColor: const Color.fromARGB(255, 255, 204, 0),
                     foregroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 24.0),

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:temuin/services/auth.dart';
 import 'found_input.dart'; // Import FoundInputScreen
 import 'lost_screen.dart'; // Import LostPage
 
 class HomePage extends StatelessWidget {
+  HomePage({super.key});
+
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
-    void _showHelpGuide(BuildContext context) {
+    void showHelpGuide(BuildContext context) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -83,7 +88,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0,
         title: const Text(
-          'Lost & Found',
+          'Temuin',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -91,6 +96,15 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        actions: <Widget>[
+          TextButton.icon(
+            icon: Icon(Icons.person),
+            label: Text('Log Out'),
+            onPressed: () async {
+              await _auth.signOut();
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -153,7 +167,7 @@ class HomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FoundInputScreen()),
+                            builder: (context) => const FoundInputScreen()),
                       );
                     },
                     child: Container(
@@ -179,11 +193,11 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
-                  children: const [
+                  children: [
                     Text(
                       'Items Return',
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -199,7 +213,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 Column(
-                  children: const [
+                  children: [
                     Text(
                       'Items Found',
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -217,8 +231,8 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Column(
-              children: const [
+            const Column(
+              children: [
                 Text(
                   'Return Rate',
                   style: TextStyle(color: Colors.white, fontSize: 16),
@@ -237,7 +251,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 24),
             GestureDetector(
               onTap: () {
-                _showHelpGuide(context);
+                showHelpGuide(context);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 15),

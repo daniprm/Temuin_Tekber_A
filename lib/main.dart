@@ -1,27 +1,41 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lost_n_found/home_page.dart';
-import 'package:lost_n_found/found_input.dart';
-import 'package:lost_n_found/lost_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:temuin/screens/pages/home_page.dart';
+import 'package:temuin/screens/pages/found_input.dart';
+import 'package:temuin/screens/pages/lost_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:temuin/screens/pages/wrapper.dart';
+import 'package:temuin/services/auth.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const LostNFound());
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const Temuin());
 }
 
-class LostNFound extends StatelessWidget {
-  const LostNFound({super.key});
+class Temuin extends StatelessWidget {
+  const Temuin({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: const HomeScreen(),
+    return StreamProvider<User?>.value(
+      value: FirebaseAuth.instance.authStateChanges(),
+      initialData: null,
+      child: MaterialApp(
+        home: Wrapper(),
+        theme: ThemeData.dark(),
+      ),
     );
+    ;
   }
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+  final AuthService _auth = AuthService();
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -31,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-    HomePage(), // Kalo mau ngerjain homescreen, ntar tinggal buat file/class baru, trus panggil class nya di sini
+    HomePage(),
     LostPage(),
     FoundInputScreen(),
   ];
@@ -49,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _children[_currentIndex], // Menampilkan halaman sesuai indeks
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
-        selectedItemColor: Color.fromARGB(255, 255, 204, 0),
+        selectedItemColor: const Color.fromARGB(255, 255, 204, 0),
         unselectedItemColor: Colors.white,
         currentIndex: _currentIndex,
         onTap: onTabTapped, // Menangani klik

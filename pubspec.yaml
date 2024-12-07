@@ -1,4 +1,4 @@
-name: lost_n_found
+name: temuin
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -35,6 +35,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   syncfusion_flutter_datepicker: ^27.2.2
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.3.4
+  provider: ^6.1.2
+  cloud_firestore: ^5.5.1
 
 dev_dependencies:
   flutter_test:

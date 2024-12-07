@@ -48,8 +48,8 @@ class FoundInputScreen extends StatelessWidget {
                   side: const BorderSide(
                       color: Color.fromARGB(255, 255, 204, 0), width: 2),
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  shape:
-                      RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero),
                 ),
                 child: const Text(
                   'Select File',
@@ -66,7 +66,7 @@ class FoundInputScreen extends StatelessWidget {
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 255, 204, 0),
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -91,7 +91,7 @@ class _CustomTextField extends StatelessWidget {
   final String label;
   final IconData? prefixIcon;
 
-  const _CustomTextField({required this.label, this.prefixIcon, super.key});
+  const _CustomTextField({required this.label, this.prefixIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,7 @@ class _CustomTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 15,
           ),
