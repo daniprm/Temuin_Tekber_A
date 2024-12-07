@@ -1,7 +1,48 @@
 import 'package:flutter/material.dart';
 
-class FoundInputScreen extends StatelessWidget {
+class FoundInputScreen extends StatefulWidget {
   const FoundInputScreen({super.key});
+
+  @override
+  State<FoundInputScreen> createState() => _FoundInputScreenState();
+}
+
+class _FoundInputScreenState extends State<FoundInputScreen> {
+  // TextEditingControllers untuk setiap TextField
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
+
+  // Fungsi untuk memunculkan Date Picker
+  Future<void> selectDate() async {
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: Color.fromARGB(255, 255, 204, 0), // Warna header
+              onPrimary: Colors.black, // Warna teks header
+              surface: Colors.black, // Warna background picker
+              onSurface: Colors.white, // Warna teks picker
+            ),
+            dialogBackgroundColor: const Color.fromARGB(247, 21, 21, 21),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (selectedDate != null) {
+      String formattedDate =
+          "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
+      dateController.text = formattedDate; // Update controller dengan tanggal
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +66,14 @@ class FoundInputScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const _CustomTextField(label: 'Name'),
-            const _CustomTextField(label: 'Location'),
-            const _CustomTextField(label: 'Category'),
-            const _CustomTextField(
+            _CustomTextField(label: 'Name', controller: nameController),
+            _CustomTextField(label: 'Location', controller: locationController),
+            _CustomTextField(label: 'Category', controller: categoryController),
+            _CustomTextField(
               label: 'Date',
+              controller: dateController,
               prefixIcon: Icons.calendar_today,
+              onTap: selectDate, // Panggil fungsi date picker
             ),
             const Text(
               'Upload Picture',
@@ -90,8 +133,15 @@ class FoundInputScreen extends StatelessWidget {
 class _CustomTextField extends StatelessWidget {
   final String label;
   final IconData? prefixIcon;
+  final TextEditingController? controller;
+  final VoidCallback? onTap; // Callback untuk menambahkan logika onTap
 
-  const _CustomTextField({required this.label, this.prefixIcon});
+  const _CustomTextField({
+    required this.label,
+    this.prefixIcon,
+    this.controller,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +157,9 @@ class _CustomTextField extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         TextField(
+          controller: controller,
+          readOnly: onTap != null, // Nonaktifkan input manual jika onTap disediakan
+          onTap: onTap, // Panggil onTap jika tersedia
           style: const TextStyle(color: Colors.white, height: 1),
           decoration: InputDecoration(
             prefixIcon: prefixIcon != null
@@ -114,26 +167,22 @@ class _CustomTextField extends StatelessWidget {
                 : null,
             filled: true,
             fillColor: const Color.fromRGBO(98, 98, 98, 1),
-            isDense: true, // Menjadikan TextField lebih ramping
+            isDense: true,
             contentPadding: const EdgeInsets.symmetric(
-              vertical: 15, // Padding vertikal lebih kecil
-              horizontal: 12, // Padding horizontal
+              vertical: 15,
+              horizontal: 12,
             ),
-            // Mengatur outline berwarna putih
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(
-                  color: Colors.white, width: 1), // Outline putih
+              borderSide: const BorderSide(color: Colors.white, width: 1),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(
-                  color: Colors.white, width: 1), // Outline putih saat aktif
+              borderSide: const BorderSide(color: Colors.white, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(
-                  color: Colors.white, width: 1), // Outline putih saat fokus
+              borderSide: const BorderSide(color: Colors.white, width: 1),
             ),
           ),
         ),
