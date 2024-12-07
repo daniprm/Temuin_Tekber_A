@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:temuin/screens/pages/home_page.dart';
 import 'package:temuin/screens/pages/found_input.dart';
 import 'package:temuin/screens/pages/lost_screen.dart';
+import 'package:temuin/screens/pages/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:temuin/screens/pages/wrapper.dart';
 import 'package:temuin/services/auth.dart';
@@ -26,11 +27,10 @@ class Temuin extends StatelessWidget {
       value: FirebaseAuth.instance.authStateChanges(),
       initialData: null,
       child: MaterialApp(
-        home: Wrapper(),
+        home: const Wrapper(),
         theme: ThemeData.dark(),
       ),
     );
-    ;
   }
 }
 
@@ -47,8 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _children = [
     HomePage(),
-    LostPage(),
-    FoundInputScreen(),
+    const LostPage(),
+    const FoundInputScreen(),
+    const ProfileScreen(),
   ];
 
   void onTabTapped(int index) {
@@ -72,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Lost'),
           BottomNavigationBarItem(icon: Icon(Icons.inventory), label: 'Found'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile')
         ],
       ),
     );

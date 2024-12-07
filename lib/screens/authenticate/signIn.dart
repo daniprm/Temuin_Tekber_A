@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:temuin/screens/authenticate/register.dart';
 import 'package:temuin/services/auth.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
-  SignIn({required this.toggleView});
+  const SignIn({super.key, required this.toggleView});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -41,13 +40,13 @@ class _SignInState extends State<SignIn> {
                         color: const Color.fromARGB(255, 255, 204, 0),
                         width: 4),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.location_on,
-                    color: const Color.fromARGB(255, 255, 204, 0),
+                    color: Color.fromARGB(255, 255, 204, 0),
                     size: 80,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // Email Field
                 TextFormField(
@@ -55,10 +54,10 @@ class _SignInState extends State<SignIn> {
                   onChanged: (val) {
                     setState(() => email = val);
                   },
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "Email",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
                     fillColor: Colors.grey[800],
                     border: OutlineInputBorder(
@@ -80,7 +79,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Password Field
                 TextFormField(
@@ -90,10 +89,10 @@ class _SignInState extends State<SignIn> {
                     setState(() => password = val);
                   },
                   obscureText: true,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "Password",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
                     fillColor: Colors.grey[800],
                     border: OutlineInputBorder(
@@ -115,17 +114,17 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Forgot Password
-                Align(
+                const Align(
                   alignment: Alignment.centerRight,
                   child: Text(
                     "Forgot Password?",
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Sign In Button
                 ElevatedButton(
@@ -141,28 +140,28 @@ class _SignInState extends State<SignIn> {
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black,
                     backgroundColor: const Color.fromARGB(255, 255, 204, 0),
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text("Sign In"),
+                  child: const Text("Sign In"),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   error,
-                  style: TextStyle(color: Colors.red, fontSize: 14),
+                  style: const TextStyle(color: Colors.red, fontSize: 14),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Divider with text
-                Row(
+                const Row(
                   children: [
                     Expanded(
                       child: Divider(color: Colors.grey),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: Text(
                         "Don't Have an Account?",
                         style: TextStyle(color: Colors.grey),
@@ -173,7 +172,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Sign Up Button
                 OutlinedButton(
@@ -182,15 +181,15 @@ class _SignInState extends State<SignIn> {
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color.fromARGB(255, 255, 204, 0),
-                    side: BorderSide(
-                        color: const Color.fromARGB(255, 255, 204, 0),
+                    side: const BorderSide(
+                        color: Color.fromARGB(255, 255, 204, 0),
                         width: 2),
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text("Sign Up"),
+                  child: const Text("Sign Up"),
                 ),
               ],
             ),

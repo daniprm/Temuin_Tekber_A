@@ -1,12 +1,10 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:temuin/screens/authenticate/signIn.dart';
 import 'package:temuin/services/auth.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
-  Register({required this.toggleView});
+  const Register({super.key, required this.toggleView});
 
   @override
   State<Register> createState() => _RegisterState();
@@ -44,13 +42,13 @@ class _RegisterState extends State<Register> {
                         color: const Color.fromARGB(255, 255, 204, 0),
                         width: 4),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.location_on,
-                    color: const Color.fromARGB(255, 255, 204, 0),
+                    color: Color.fromARGB(255, 255, 204, 0),
                     size: 80,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // Email Field
                 TextFormField(
@@ -58,10 +56,10 @@ class _RegisterState extends State<Register> {
                   onChanged: (val) {
                     setState(() => email = val);
                   },
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "Email",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
                     fillColor: Colors.grey[800],
                     border: OutlineInputBorder(
@@ -83,7 +81,7 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Name Field
                 TextFormField(
@@ -91,10 +89,10 @@ class _RegisterState extends State<Register> {
                   onChanged: (val) {
                     setState(() => name = val);
                   },
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "Name",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
                     fillColor: Colors.grey[800],
                     border: OutlineInputBorder(
@@ -116,7 +114,7 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Phone Number Field
                 TextFormField(
@@ -125,10 +123,10 @@ class _RegisterState extends State<Register> {
                   onChanged: (val) {
                     setState(() => phone = val);
                   },
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "Phone Number",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
                     fillColor: Colors.grey[800],
                     border: OutlineInputBorder(
@@ -150,7 +148,7 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Password Field
                 TextFormField(
@@ -160,10 +158,10 @@ class _RegisterState extends State<Register> {
                     setState(() => password = val);
                   },
                   obscureText: true,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "Password",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
                     fillColor: Colors.grey[800],
                     border: OutlineInputBorder(
@@ -185,7 +183,7 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Sign Up Button
                 ElevatedButton(
@@ -201,28 +199,28 @@ class _RegisterState extends State<Register> {
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black,
                     backgroundColor: const Color.fromARGB(255, 255, 204, 0),
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text("Sign Up"),
+                  child: const Text("Sign Up"),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   error,
-                  style: TextStyle(color: Colors.red, fontSize: 14),
+                  style: const TextStyle(color: Colors.red, fontSize: 14),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Divider with text
-                Row(
+                const Row(
                   children: [
                     Expanded(
                       child: Divider(color: Colors.grey),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: Text(
                         "Already Have an Account?",
                         style: TextStyle(color: Colors.grey),
@@ -233,7 +231,7 @@ class _RegisterState extends State<Register> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Sign In Button
                 OutlinedButton(
@@ -242,15 +240,15 @@ class _RegisterState extends State<Register> {
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color.fromARGB(255, 255, 204, 0),
-                    side: BorderSide(
-                        color: const Color.fromARGB(255, 255, 204, 0),
+                    side: const BorderSide(
+                        color: Color.fromARGB(255, 255, 204, 0),
                         width: 2),
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text("Sign In"),
+                  child: const Text("Sign In"),
                 ),
               ],
             ),
