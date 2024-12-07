@@ -1,5 +1,6 @@
 import 'package:temuin/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:temuin/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -31,13 +32,17 @@ class AuthService {
 
   // register with email and password
   Future<UserModel?> registerWithEmailAndPassword(
-      String email, String password) async {
+      String email, String password, String name, String phone) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       User? user = result.user;
+
+      // create a new document for the user with the uid
+      await DatabaseService(uid: user!.uid).updateUserData(name, phone);
+
       return _userFromFirebaseUser(user);
     } catch (error) {
       print(error.toString());
