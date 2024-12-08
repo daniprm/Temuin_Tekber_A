@@ -40,7 +40,6 @@ class AuthService {
       );
       User? user = result.user;
 
-      // create a new document for the user with the uid
       await DatabaseService(uid: user!.uid).updateUserData(name, phone);
 
       return _userFromFirebaseUser(user);
@@ -58,5 +57,10 @@ class AuthService {
       print(error.toString());
       return null;
     }
+  }
+
+  // Mendapatkan pengguna saat ini
+  User? getCurrentUser() {
+    return _auth.currentUser;
   }
 }

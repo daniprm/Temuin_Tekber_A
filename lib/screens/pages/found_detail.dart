@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:temuin/screens/pages/found_edit.dart';
+import 'package:temuin/services/auth.dart';
+import 'package:temuin/services/database.dart';
 
 class FoundDetailScreen extends StatelessWidget {
   final String name;
   final String category;
   final String location;
-  final String date;
+  final DateTime date;
   final String image;
+  final String itemId;
+  final String founderId;
+  final String formattedDate;
 
   const FoundDetailScreen(
       {super.key,
@@ -14,13 +19,18 @@ class FoundDetailScreen extends StatelessWidget {
       required this.category,
       required this.location,
       required this.date,
-      required this.image});
+      required this.image,
+      required this.itemId,
+      required this.founderId,
+      required this.formattedDate});
 
   @override
   Widget build(BuildContext context) {
     // Get the screen width and height
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
+    final userId = AuthService().getCurrentUser()?.uid;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -111,7 +121,7 @@ class FoundDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: TextFormField(
-                initialValue: date,
+                initialValue: formattedDate,
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Date',
@@ -138,7 +148,63 @@ class FoundDetailScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () async {
+                      // Tampilkan modal konfirmasi
+                      bool? confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Confirmation'),
+                            content: Text(
+                                'make sure the item you are going to take is really yours'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(false); // Tidak jadi
+                                },
+                                child: Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true); // Konfirmasi
+                                },
+                                child: Text('Take'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      // Jika pengguna menekan "Ambil"
+                      if (confirm == true) {
+                        dynamic result = await DatabaseService(uid: userId)
+                            .takeLostItem(itemId);
+                        if (result == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Failed to take item.'),
+                              duration: Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        } else if (result == true) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Item successfully taken.'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('An error occurred.'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      }
+                    },
                     icon: Image.asset('assets/take.png'),
                     label: const Text("Take"),
                     style: ElevatedButton.styleFrom(
@@ -151,17 +217,31 @@ class FoundDetailScreen extends StatelessWidget {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FoundEditScreen(
-                                  name: name,
-                                  category: category,
-                                  location: location,
-                                  date: date,
-                                  image: image,
-                                )),
-                      );
+                      if (userId != founderId) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'only the person who found the item can edit it.'),
+                            duration: Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        return;
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FoundEditScreen(
+                                    name: name,
+                                    category: category,
+                                    location: location,
+                                    date: date,
+                                    image: image,
+                                    formattedDate: formattedDate,
+                                    itemId: itemId,
+                                  )),
+                        );
+                      }
                     },
                     icon: const Icon(Icons.edit, color: Colors.black),
                     label: const Text("Edit"),

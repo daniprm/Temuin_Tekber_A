@@ -47,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _children = [
     HomePage(),
-    const LostPage(),
-    const FoundInputScreen(),
-    const ProfileScreen(),
+    LostPage(),
+    FoundInputScreen(),
+    ProfileScreen(),
   ];
 
   void onTabTapped(int index) {
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color.fromRGBO(21, 21, 21, 1),
       body: _children[_currentIndex], // Menampilkan halaman sesuai indeks
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         selectedItemColor: const Color.fromARGB(255, 255, 204, 0),
         unselectedItemColor: Colors.white,
         currentIndex: _currentIndex,
