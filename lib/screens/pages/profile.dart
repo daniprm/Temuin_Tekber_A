@@ -56,8 +56,7 @@ class ProfileScreen extends StatelessWidget {
                 Text(
                   'Halo, $name!',
                   style: const TextStyle(
-                      color: const Color.fromARGB(255, 255, 204, 0),
-                      fontSize: 24),
+                      color: Color.fromARGB(255, 255, 204, 0), fontSize: 24),
                 ),
                 const SizedBox(height: 16),
                 buildProfileField(label: "Name", value: name),

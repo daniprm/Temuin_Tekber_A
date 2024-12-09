@@ -24,8 +24,7 @@ class AuthService {
       );
       User? user = result.user;
       return _userFromFirebaseUser(user);
-    } catch (error) {
-      print(error.toString());
+    } catch (e) {
       return null;
     }
   }
@@ -39,13 +38,22 @@ class AuthService {
         password: password,
       );
       User? user = result.user;
-
+      await user?.sendEmailVerification();
       await DatabaseService(uid: user!.uid).updateUserData(name, phone);
 
       return _userFromFirebaseUser(user);
     } catch (error) {
       print(error.toString());
       return null;
+    }
+  }
+
+  Future sendPassResetEmail(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return 'Password reset link succesfully sent to your email, please check your email';
+    } on FirebaseAuthException catch (e) {
+      return e.message;
     }
   }
 
@@ -60,6 +68,7 @@ class AuthService {
   }
 
   // Mendapatkan pengguna saat ini
+
   User? getCurrentUser() {
     return _auth.currentUser;
   }

@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: const Color.fromARGB(255, 255, 204, 0),
         unselectedItemColor: Colors.white,
         currentIndex: _currentIndex,
-        onTap: onTabTapped, // Menangani klik
+        onTap: onTabTapped,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Lost'),

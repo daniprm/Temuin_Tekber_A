@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temuin/screens/authenticate/forgotPass.dart';
 import 'package:temuin/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -117,11 +118,25 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(height: 10),
 
                 // Forgot Password
-                const Align(
+                Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    "Forgot Password?",
-                    style: TextStyle(color: Colors.grey),
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigasi ke class ForgotPass()
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPass(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "Forgot Password?",
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 255, 204, 0),
+                          decoration: TextDecoration.underline,
+                          decorationColor: Color.fromARGB(255, 255, 204, 0)),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -132,8 +147,9 @@ class _SignInState extends State<SignIn> {
                     if (_formKey.currentState!.validate()) {
                       dynamic result = await _auth.signInWithEmailAndPassword(
                           email, password);
+
                       if (result == null) {
-                        setState(() => error = 'Your credentials are invalid');
+                        setState(() => error = 'Invalid credentials');
                       }
                     }
                   },
@@ -182,8 +198,7 @@ class _SignInState extends State<SignIn> {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color.fromARGB(255, 255, 204, 0),
                     side: const BorderSide(
-                        color: Color.fromARGB(255, 255, 204, 0),
-                        width: 2),
+                        color: Color.fromARGB(255, 255, 204, 0), width: 2),
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

@@ -1,5 +1,6 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:temuin/models/user.dart';
 import 'package:temuin/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -19,6 +20,8 @@ class _RegisterState extends State<Register> {
   String name = '';
   String phone = '';
   String error = '';
+
+  User? user = AuthService().getCurrentUser();
 
   @override
   Widget build(BuildContext context) {
@@ -241,8 +244,7 @@ class _RegisterState extends State<Register> {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color.fromARGB(255, 255, 204, 0),
                     side: const BorderSide(
-                        color: Color.fromARGB(255, 255, 204, 0),
-                        width: 2),
+                        color: Color.fromARGB(255, 255, 204, 0), width: 2),
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

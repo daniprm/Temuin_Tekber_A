@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:temuin/services/database.dart';
 
@@ -19,6 +20,23 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
   final TextEditingController locationController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
+
+  File? image;
+  Future<void> _pickImageFromGallery() async {
+    final PickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = File(PickedFile!.path);
+    });
+  }
+
+  Future<XFile> _compressImage(File image) async {
+    final compressImage = await FlutterImageCompress.compressAndGetFile(
+      image.absolute.path,
+      '${image.path}_compressed.jpg',
+    );
+    return compressImage!;
+  }
 
   // final ImagePicker _picker = ImagePicker();
   // File? selectedImage; // Menyimpan file gambar
@@ -76,11 +94,11 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
           'date': DateTime.parse(date.toIso8601String()), // Format tanggal
           'founderId': currentUser.uid, // Tambahkan founderId
           'isTaken': false,
-          'createdAt': FieldValue.serverTimestamp(), // Waktu server
+          'createdAt': FieldValue.serverTimestamp(),
         };
 
         // Tambahkan data ke Firestore
-        DatabaseService().addLostItems(itemData);
+        DatabaseService().addLostItems(itemData, image!);
 
         // Berikan notifikasi berhasil
         ScaffoldMessenger.of(context).showSnackBar(
@@ -167,9 +185,7 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 180),
                   child: OutlinedButton(
-                    onPressed: () {
-                      // Tambahkan logika upload file
-                    },
+                    onPressed: _pickImageFromGallery,
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(
                           color: Color.fromARGB(255, 255, 204, 0), width: 2),
