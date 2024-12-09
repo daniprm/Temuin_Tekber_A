@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:temuin/screens/pages/found_detail.dart';
+import 'package:temuin/screens/pages/lost/lost_detail.dart';
 import 'package:temuin/services/database.dart';
 
 class LostPage extends StatelessWidget {
@@ -14,7 +14,7 @@ class LostPage extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0,
         title: const Text(
-          'Lost and Found',
+          'Lost Items',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -90,14 +90,13 @@ class LostPage extends StatelessWidget {
                 ...items.map((item) {
                   return ListTile(
                     leading: Container(
-                      width: 40,
-                      height: 40,
+                      width: 55,
+                      height: 55,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(item['image'] ?? ''),
+                          image: AssetImage('assets/${item['image']}'),
                           fit: BoxFit.cover,
                         ),
-                        borderRadius: BorderRadius.circular(4.0),
                       ),
                     ),
                     title: Text(
@@ -118,7 +117,7 @@ class LostPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FoundDetailScreen(
+                          builder: (context) => LostDetailScreen(
                             name: item['name'] ?? 'Unknown',
                             location: item['location'] ?? 'Unknown',
                             category: item['category'] ?? 'Unknown',

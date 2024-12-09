@@ -95,10 +95,11 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
           'founderId': currentUser.uid, // Tambahkan founderId
           'isTaken': false,
           'createdAt': FieldValue.serverTimestamp(),
+          'image': 'tumbler.jpg'
         };
 
         // Tambahkan data ke Firestore
-        DatabaseService().addLostItems(itemData, image!);
+        DatabaseService().addLostItems(itemData);
 
         // Berikan notifikasi berhasil
         ScaffoldMessenger.of(context).showSnackBar(

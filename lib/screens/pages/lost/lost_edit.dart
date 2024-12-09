@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart'; // Untuk Firestore
 import 'package:temuin/services/auth.dart';
 import 'package:temuin/services/database.dart';
 
-class FoundEditScreen extends StatefulWidget {
+class LostEditScreen extends StatefulWidget {
   final String name;
   final String category;
   final String location;
@@ -13,7 +13,7 @@ class FoundEditScreen extends StatefulWidget {
   final String formattedDate;
   final String itemId;
 
-  const FoundEditScreen({
+  const LostEditScreen({
     super.key,
     required this.name,
     required this.category,
@@ -25,10 +25,10 @@ class FoundEditScreen extends StatefulWidget {
   });
 
   @override
-  _FoundEditScreenState createState() => _FoundEditScreenState();
+  LostEditScreenState createState() => LostEditScreenState();
 }
 
-class _FoundEditScreenState extends State<FoundEditScreen> {
+class LostEditScreenState extends State<LostEditScreen> {
   late TextEditingController nameController;
   late TextEditingController categoryController;
   late TextEditingController locationController;
@@ -136,7 +136,7 @@ class _FoundEditScreenState extends State<FoundEditScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
+      backgroundColor: const Color.fromRGBO(21, 21, 21, 1),
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
@@ -163,7 +163,7 @@ class _FoundEditScreenState extends State<FoundEditScreen> {
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
+                  child: Image.asset(
                     widget.image,
                     height: 150,
                     width: 150,

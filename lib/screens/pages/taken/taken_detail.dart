@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:temuin/screens/pages/found_edit.dart';
 import 'package:temuin/services/auth.dart';
 import 'package:temuin/services/database.dart';
 
-class FoundDetailScreen extends StatelessWidget {
+class TakenDetailScreen extends StatelessWidget {
   final String name;
   final String category;
   final String location;
@@ -12,8 +11,10 @@ class FoundDetailScreen extends StatelessWidget {
   final String itemId;
   final String founderId;
   final String formattedDate;
+  final String formattedTakenDate;
+  final String takenBy;
 
-  const FoundDetailScreen(
+  const TakenDetailScreen(
       {super.key,
       required this.name,
       required this.category,
@@ -22,7 +23,9 @@ class FoundDetailScreen extends StatelessWidget {
       required this.image,
       required this.itemId,
       required this.founderId,
-      required this.formattedDate});
+      required this.formattedDate,
+      required this.formattedTakenDate,
+      required this.takenBy});
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +66,9 @@ class FoundDetailScreen extends StatelessWidget {
             // Name Field
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: TextFormField(
-                initialValue: name,
+              child: TextField(
+                enabled: false,
+                controller: TextEditingController(text: name),
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Name',
@@ -82,8 +86,9 @@ class FoundDetailScreen extends StatelessWidget {
             // Location Field
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: TextFormField(
-                initialValue: location,
+              child: TextField(
+                enabled: false,
+                controller: TextEditingController(text: location),
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Location',
@@ -101,11 +106,30 @@ class FoundDetailScreen extends StatelessWidget {
             // Category Field
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: TextFormField(
-                initialValue: category,
+              child: TextField(
+                enabled: false,
+                controller: TextEditingController(text: category),
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Category',
+                  labelStyle: const TextStyle(color: Colors.white),
+                  filled: true,
+                  fillColor: Colors.grey[800],
+                  border: const OutlineInputBorder(),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: TextField(
+                enabled: false,
+                controller: TextEditingController(text: takenBy),
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Taken By',
                   labelStyle: const TextStyle(color: Colors.white),
                   filled: true,
                   fillColor: Colors.grey[800],
@@ -120,11 +144,36 @@ class FoundDetailScreen extends StatelessWidget {
             // Date Field
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: TextFormField(
-                initialValue: formattedDate,
+              child: TextField(
+                enabled: false,
+                controller: TextEditingController(text: formattedDate),
                 readOnly: true,
                 decoration: InputDecoration(
-                  labelText: 'Date',
+                  labelText: 'Lost Date',
+                  labelStyle: const TextStyle(color: Colors.white),
+                  filled: true,
+                  fillColor: Colors.grey[800],
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16.0), // Adjust the padding as needed
+                    child: Icon(Icons.calendar_today, color: Colors.white),
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: TextField(
+                enabled: false,
+                controller: TextEditingController(text: formattedTakenDate),
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Taken Date',
                   labelStyle: const TextStyle(color: Colors.white),
                   filled: true,
                   fillColor: Colors.grey[800],
@@ -145,7 +194,7 @@ class FoundDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton.icon(
                     onPressed: () async {
@@ -155,8 +204,7 @@ class FoundDetailScreen extends StatelessWidget {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text('Confirmation'),
-                            content: Text(
-                                'make sure the item you are going to take is really yours'),
+                            content: Text('Restore the item?'),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -169,7 +217,7 @@ class FoundDetailScreen extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).pop(true); // Konfirmasi
                                 },
-                                child: Text('Take'),
+                                child: Text('Restore'),
                               ),
                             ],
                           );
@@ -179,11 +227,11 @@ class FoundDetailScreen extends StatelessWidget {
                       // Jika pengguna menekan "Ambil"
                       if (confirm == true) {
                         dynamic result = await DatabaseService(uid: userId)
-                            .takeLostItem(itemId);
+                            .restoreTakenItem(itemId);
                         if (result == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Failed to take item.'),
+                              content: Text('Failed to Restore item.'),
                               duration: Duration(seconds: 2),
                               behavior: SnackBarBehavior.floating,
                             ),
@@ -191,7 +239,7 @@ class FoundDetailScreen extends StatelessWidget {
                         } else if (result == true) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Item successfully taken.'),
+                              content: Text('Item successfully Restored.'),
                               duration: Duration(seconds: 2),
                             ),
                           );
@@ -205,8 +253,8 @@ class FoundDetailScreen extends StatelessWidget {
                         }
                       }
                     },
-                    icon: Image.asset('assets/take.png'),
-                    label: const Text("Take"),
+                    icon: Icon(Icons.restore_from_trash),
+                    label: const Text("Restore"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 255, 204, 0),
                       foregroundColor: Colors.black,
@@ -216,35 +264,78 @@ class FoundDetailScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {
+                    onPressed: () async {
                       if (userId != founderId) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(
-                                'only the person who found the item can edit it.'),
+                                'only the person who found the item can delete it.'),
                             duration: Duration(seconds: 2),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
                         return;
                       } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FoundEditScreen(
-                                    name: name,
-                                    category: category,
-                                    location: location,
-                                    date: date,
-                                    image: image,
-                                    formattedDate: formattedDate,
-                                    itemId: itemId,
-                                  )),
+                        // Tampilkan modal konfirmasi
+                        bool? confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Confirmation'),
+                              content: Text(
+                                  'the item will be permanently deleted. Are you sure want to delete the item?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(false); // Tidak jadi
+                                  },
+                                  child: Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(true); // Konfirmasi
+                                  },
+                                  child: Text('Delete'),
+                                ),
+                              ],
+                            );
+                          },
                         );
+
+                        // Jika pengguna menekan "Ambil"
+                        if (confirm == true) {
+                          dynamic result = await DatabaseService(uid: userId)
+                              .deleteItem(itemId);
+                          if (result == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Failed to Delete item.'),
+                                duration: Duration(seconds: 2),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          } else if (result == true) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Item successfully Deleted.'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('An error occurred.'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        }
                       }
                     },
-                    icon: const Icon(Icons.edit, color: Colors.black),
-                    label: const Text("Edit"),
+                    icon: Icon(Icons.delete),
+                    label: const Text("Delete"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 255, 204, 0),
                       foregroundColor: Colors.black,

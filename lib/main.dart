@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:temuin/screens/pages/home_page.dart';
 import 'package:temuin/screens/pages/found_input.dart';
-import 'package:temuin/screens/pages/lost_screen.dart';
+import 'package:temuin/screens/pages/lost/lost_screen.dart';
 import 'package:temuin/screens/pages/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:temuin/screens/pages/taken/taken_screen.dart';
 import 'package:temuin/screens/pages/wrapper.dart';
 import 'package:temuin/services/auth.dart';
 import 'firebase_options.dart';
@@ -43,12 +44,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
 
   final List<Widget> _children = [
-    HomePage(),
     LostPage(),
     FoundInputScreen(),
+    HomePage(),
+    TakenPage(),
     ProfileScreen(),
   ];
 
@@ -70,9 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _currentIndex,
         onTap: onTabTapped,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Lost'),
           BottomNavigationBarItem(icon: Icon(Icons.inventory), label: 'Found'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Taken'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile')
         ],
       ),

@@ -26,7 +26,18 @@ class DatabaseService {
         .snapshots();
   }
 
-  Future addLostItems(Map<String, Object?> itemData, File image) async {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllLostsCollection() {
+    return FirebaseFirestore.instance.collection('lostItems').snapshots();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getTakenCollection() {
+    return FirebaseFirestore.instance
+        .collection('lostItems')
+        .where('isTaken', isEqualTo: true)
+        .snapshots();
+  }
+
+  Future addLostItems(Map<String, Object?> itemData) async {
     await lostItemsCollection.add(itemData);
 
     // Upload image to Firebase Storage
@@ -45,7 +56,7 @@ class DatabaseService {
     });
   }
 
-  Future<bool?> takeLostItem(String itemId) async {
+  Future<bool?> takeLostItem(String itemId, String takenBy) async {
     try {
       final item =
           FirebaseFirestore.instance.collection('lostItems').doc(itemId);
@@ -54,7 +65,51 @@ class DatabaseService {
 
       if (itemSnapshot.exists) {
         // Update dokumen
-        await item.update({'isTaken': true, 'takenByid': uid});
+        await item.update({
+          'isTaken': true,
+          'takenByid': uid,
+          'takenBy': takenBy,
+          'takenAt': DateTime.now()
+        });
+        return true;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool?> restoreTakenItem(String itemId) async {
+    try {
+      final item =
+          FirebaseFirestore.instance.collection('lostItems').doc(itemId);
+
+      final itemSnapshot = await item.get();
+
+      if (itemSnapshot.exists) {
+        // Update dokumen
+        await item
+            .update({'isTaken': false, 'takenByid': null, 'takenBy': null});
+        return true;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool?> deleteItem(String itemId) async {
+    try {
+      final item =
+          FirebaseFirestore.instance.collection('lostItems').doc(itemId);
+
+      final itemSnapshot = await item.get();
+
+      if (itemSnapshot.exists) {
+        // Update dokumen
+        await item.delete();
         return true;
       } else {
         return null;
