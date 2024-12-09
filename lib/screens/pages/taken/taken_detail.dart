@@ -55,10 +55,11 @@ class TakenDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Image.asset(
-                image, // Path to your asset image
-                width: screenWidth * 0.4, // 40% of the screen width
-                height: screenWidth * 0.4, // 40% of the screen width
+              child: Image.network(
+                image,
+                height: 150,
+                width: 150,
+                fit: BoxFit.cover,
               ),
             ),
             SizedBox(height: screenHeight * 0.03), // 3% of the screen height

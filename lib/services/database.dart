@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DatabaseService {
   final String? uid;
@@ -39,12 +40,18 @@ class DatabaseService {
 
   Future addLostItems(Map<String, Object?> itemData) async {
     await lostItemsCollection.add(itemData);
-
-    // Upload image to Firebase Storage
-    // final storageRef = FirebaseStorage.instance.ref().child('lostItems');
-    // final imageRef = storageRef.child('${itemData['name']}.jpg');
-    // await imageRef.putFile(image);
   }
+
+  // Future<String> getImageUrl(String path) async {
+  //   try {
+  //     final imageUrl = await Supabase.instance.client.storage
+  //         .from('images')
+  //         .getPublicUrl('uploads/${path}');
+  //     return imageUrl;
+  //   } catch (e) {
+  //     return e.toString();
+  //   }
+  // }
 
   Future<void> editItem(String itemId, String name, String location,
       String category, DateTime date) async {

@@ -163,7 +163,7 @@ class LostEditScreenState extends State<LostEditScreen> {
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
+                  child: Image.network(
                     widget.image,
                     height: 150,
                     width: 150,

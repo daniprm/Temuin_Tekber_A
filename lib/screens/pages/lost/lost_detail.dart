@@ -54,7 +54,7 @@ class LostDetailScreen extends StatelessWidget {
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
+                child: Image.network(
                   image,
                   height: 150,
                   width: 150,

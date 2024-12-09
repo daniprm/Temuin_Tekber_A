@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:temuin/services/database.dart';
 
 class FoundInputScreen extends StatefulWidget {
@@ -21,13 +23,28 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
 
-  File? image;
-  Future<void> _pickImageFromGallery() async {
-    final PickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      image = File(PickedFile!.path);
-    });
+  File? _imageFile;
+  Future pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _imageFile = File(image.path);
+      });
+    }
+  }
+
+  String imgPath = '';
+  Future uploadImage() async {
+    print(_imageFile!.path);
+    if (_imageFile == null) return;
+
+    final fileName = '${DateTime.now().millisecondsSinceEpoch.toString()}.jpg';
+    imgPath = 'uploads/$fileName';
+
+    await Supabase.instance.client.storage
+        .from('images')
+        .upload(imgPath, _imageFile!);
   }
 
   Future<XFile> _compressImage(File image) async {
@@ -80,6 +97,10 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
   void addItem() async {
     if (_formKey.currentState!.validate()) {
       try {
+        // Upload image ke Supabase Storage
+        if (_imageFile != null) {
+          uploadImage();
+        }
         // Ambil UID pengguna saat ini
         final currentUser = FirebaseAuth.instance.currentUser;
         if (currentUser == null) {
@@ -95,7 +116,9 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
           'founderId': currentUser.uid, // Tambahkan founderId
           'isTaken': false,
           'createdAt': FieldValue.serverTimestamp(),
-          'image': 'tumbler.jpg'
+          'image': Supabase.instance.client.storage
+              .from('images')
+              .getPublicUrl(imgPath),
         };
 
         // Tambahkan data ke Firestore
@@ -175,6 +198,11 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
                   validator: (value) =>
                       value!.isEmpty ? 'Please select a date' : null,
                 ),
+                // Image preview test
+                _imageFile != null
+                    ? Text(path.basename(_imageFile!.path))
+                    : const Text('No image Selected'),
+                const SizedBox(height: 8),
                 const Text(
                   'Upload Picture',
                   style: TextStyle(
@@ -186,7 +214,7 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 180),
                   child: OutlinedButton(
-                    onPressed: _pickImageFromGallery,
+                    onPressed: pickImage,
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(
                           color: Color.fromARGB(255, 255, 204, 0), width: 2),

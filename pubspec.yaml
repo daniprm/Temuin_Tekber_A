@@ -42,6 +42,8 @@ dependencies:
   image_picker: ^1.1.2
   flutter_image_compress: ^2.3.0
   firebase_storage: ^12.3.7
+  supabase_flutter: ^2.8.1
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
@@ -66,11 +68,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/TWS.png
     - assets/take.png
-    - assets/tws.jpg
-    - assets/tumbler.jpg
-    - assets/charger.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

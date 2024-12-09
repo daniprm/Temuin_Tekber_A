@@ -92,11 +92,11 @@ class TakenPage extends StatelessWidget {
                 ...items.map((item) {
                   return ListTile(
                     leading: Container(
-                      width: 50,
-                      height: 50,
+                      width: 55,
+                      height: 55,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/${item['image']}'),
+                          image: Image.network(item['image'] ?? '').image,
                           fit: BoxFit.cover,
                         ),
                       ),

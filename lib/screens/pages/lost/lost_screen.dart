@@ -94,7 +94,7 @@ class LostPage extends StatelessWidget {
                       height: 55,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/${item['image']}'),
+                          image: NetworkImage(item['image'] ?? ''),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -112,7 +112,7 @@ class LostPage extends StatelessWidget {
                     ),
                     trailing:
                         const Icon(Icons.arrow_forward, color: Colors.white),
-                    onTap: () {
+                    onTap: () async {
                       // Navigasi ke FoundDetailScreen (ganti sesuai kebutuhan)
                       Navigator.push(
                         context,

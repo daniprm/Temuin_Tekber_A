@@ -10,11 +10,17 @@ import 'package:temuin/screens/pages/taken/taken_screen.dart';
 import 'package:temuin/screens/pages/wrapper.dart';
 import 'package:temuin/services/auth.dart';
 import 'firebase_options.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await supabase.Supabase.initialize(
+    url: "https://skjgwoyuftuidjvqbjkn.supabase.co",
+    anonKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNramd3b3l1ZnR1aWRqdnFiamtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM3NTU3OTQsImV4cCI6MjA0OTMzMTc5NH0.Khcp1rLOwmZzVE0lQKwEXiCppIdpN7Z6VL6oWcvNfSo",
   );
   runApp(const Temuin());
 }
