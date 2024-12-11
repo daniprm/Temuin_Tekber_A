@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:temuin/services/auth.dart';
-import 'package:temuin/services/database.dart';
+import 'package:Temuin/services/database.dart';
 import 'found_input.dart'; // Import FoundInputScreen
 import 'lost/lost_screen.dart'; // Import LostPage
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
-
-  final AuthService _auth = AuthService();
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +99,8 @@ class HomePage extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
           stream: DatabaseService().getAllLostsCollection(),
           builder: (context, snapshot) {
+            int itemsFound = 0;
+            int itemsReturn = 0;
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
@@ -116,16 +115,12 @@ class HomePage extends StatelessWidget {
             }
 
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return const Center(
-                child: Text(
-                  'No lost items found',
-                  style: TextStyle(color: Colors.white),
-                ),
-              );
+              itemsReturn = 0;
+              itemsFound = 0;
             }
 
-            int itemsFound = snapshot.data!.docs.length;
-            int itemsReturn = 0;
+            itemsFound = snapshot.data!.docs.length;
+
             for (var doc in snapshot.data!.docs) {
               final isTaken = doc.get('isTaken') ?? false; // Null-safe
               if (isTaken) {
@@ -133,7 +128,10 @@ class HomePage extends StatelessWidget {
               }
             }
 
-            double returnRate = (itemsReturn / itemsFound) * 100;
+            double returnRate = 0;
+            itemsFound == 0
+                ? returnRate = 0
+                : returnRate = (itemsReturn / itemsFound) * 100;
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:temuin/main.dart';
-import 'package:temuin/screens/authenticate/authenticate.dart';
+import 'package:Temuin/main.dart';
+import 'package:Temuin/screens/authenticate/authenticate.dart';
 import 'package:provider/provider.dart';
-import 'package:temuin/screens/authenticate/verifyEmail.dart';
+import 'package:Temuin/screens/authenticate/verifyEmail.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
@@ -18,7 +18,7 @@ class Wrapper extends StatelessWidget {
     } else if (!user.emailVerified) {
       return const VerifyEmail();
     } else {
-      return HomeScreen();
+      return const HomeScreen();
     }
   }
 }

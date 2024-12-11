@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DatabaseService {
@@ -31,6 +27,13 @@ class DatabaseService {
     return FirebaseFirestore.instance.collection('lostItems').snapshots();
   }
 
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getItemData(String itemId) {
+    return FirebaseFirestore.instance
+        .collection('lostItems')
+        .doc(itemId)
+        .snapshots();
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getTakenCollection() {
     return FirebaseFirestore.instance
         .collection('lostItems')
@@ -41,17 +44,6 @@ class DatabaseService {
   Future addLostItems(Map<String, Object?> itemData) async {
     await lostItemsCollection.add(itemData);
   }
-
-  // Future<String> getImageUrl(String path) async {
-  //   try {
-  //     final imageUrl = await Supabase.instance.client.storage
-  //         .from('images')
-  //         .getPublicUrl('uploads/${path}');
-  //     return imageUrl;
-  //   } catch (e) {
-  //     return e.toString();
-  //   }
-  // }
 
   Future<void> editItem(String itemId, String name, String location,
       String category, DateTime date) async {
@@ -107,7 +99,7 @@ class DatabaseService {
     }
   }
 
-  Future<bool?> deleteItem(String itemId) async {
+  Future<bool?> deleteItem(String itemId, String imgPath) async {
     try {
       final item =
           FirebaseFirestore.instance.collection('lostItems').doc(itemId);
@@ -117,6 +109,7 @@ class DatabaseService {
       if (itemSnapshot.exists) {
         // Update dokumen
         await item.delete();
+        await Supabase.instance.client.storage.from('images').remove([imgPath]);
         return true;
       } else {
         return null;

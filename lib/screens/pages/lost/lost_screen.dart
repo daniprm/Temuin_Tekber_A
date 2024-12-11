@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:temuin/screens/pages/lost/lost_detail.dart';
-import 'package:temuin/services/database.dart';
+import 'package:Temuin/screens/pages/lost/lost_detail.dart';
+import 'package:Temuin/services/database.dart';
 
 class LostPage extends StatelessWidget {
   const LostPage({super.key});
@@ -94,7 +94,7 @@ class LostPage extends StatelessWidget {
                       height: 55,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(item['image'] ?? ''),
+                          image: NetworkImage(item['imageUrl'] ?? ''),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -122,7 +122,8 @@ class LostPage extends StatelessWidget {
                             location: item['location'] ?? 'Unknown',
                             category: item['category'] ?? 'Unknown',
                             date: item['date'].toDate(),
-                            image: item['image'] ?? '',
+                            imageUrl: item['imageUrl'] ?? '',
+                            imgPath: item['imgPath'] ?? '',
                             itemId: item['itemId'],
                             founderId: item['founderId'],
                             formattedDate:

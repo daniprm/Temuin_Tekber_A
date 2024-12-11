@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:temuin/services/database.dart';
+import 'package:Temuin/services/database.dart';
 
 class FoundInputScreen extends StatefulWidget {
   const FoundInputScreen({super.key});
@@ -36,7 +35,6 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
 
   String imgPath = '';
   Future uploadImage() async {
-    print(_imageFile!.path);
     if (_imageFile == null) return;
 
     final fileName = '${DateTime.now().millisecondsSinceEpoch.toString()}.jpg';
@@ -46,17 +44,6 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
         .from('images')
         .upload(imgPath, _imageFile!);
   }
-
-  Future<XFile> _compressImage(File image) async {
-    final compressImage = await FlutterImageCompress.compressAndGetFile(
-      image.absolute.path,
-      '${image.path}_compressed.jpg',
-    );
-    return compressImage!;
-  }
-
-  // final ImagePicker _picker = ImagePicker();
-  // File? selectedImage; // Menyimpan file gambar
 
   final _formKey = GlobalKey<FormState>(); // Key untuk form validation
   DateTime date = DateTime.now();
@@ -116,9 +103,10 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
           'founderId': currentUser.uid, // Tambahkan founderId
           'isTaken': false,
           'createdAt': FieldValue.serverTimestamp(),
-          'image': Supabase.instance.client.storage
+          'imageUrl': Supabase.instance.client.storage
               .from('images')
               .getPublicUrl(imgPath),
+          'imgPath': imgPath,
         };
 
         // Tambahkan data ke Firestore
@@ -164,95 +152,92 @@ class _FoundInputScreenState extends State<FoundInputScreen> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 32, right: 32, top: 18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _CustomTextField(
-                  label: 'Name',
-                  controller: nameController,
-                  validator: (value) =>
-                      value!.isEmpty ? 'Please enter a name' : null,
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 32, right: 32, top: 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _CustomTextField(
+                label: 'Name',
+                controller: nameController,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a name' : null,
+              ),
+              _CustomTextField(
+                label: 'Location',
+                controller: locationController,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a location' : null,
+              ),
+              _CustomTextField(
+                label: 'Category',
+                controller: categoryController,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a category' : null,
+              ),
+              _CustomTextField(
+                label: 'Date',
+                controller: dateController,
+                prefixIcon: Icons.calendar_today,
+                onTap: selectDate, // Panggil fungsi date picker
+                validator: (value) =>
+                    value!.isEmpty ? 'Please select a date' : null,
+              ),
+              _imageFile != null
+                  ? Text(path.basename(_imageFile!.path))
+                  : const Text('No image Selected'),
+              const SizedBox(height: 8),
+              const Text(
+                'Upload Picture',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
                 ),
-                _CustomTextField(
-                  label: 'Location',
-                  controller: locationController,
-                  validator: (value) =>
-                      value!.isEmpty ? 'Please enter a location' : null,
-                ),
-                _CustomTextField(
-                  label: 'Category',
-                  controller: categoryController,
-                  validator: (value) =>
-                      value!.isEmpty ? 'Please enter a category' : null,
-                ),
-                _CustomTextField(
-                  label: 'Date',
-                  controller: dateController,
-                  prefixIcon: Icons.calendar_today,
-                  onTap: selectDate, // Panggil fungsi date picker
-                  validator: (value) =>
-                      value!.isEmpty ? 'Please select a date' : null,
-                ),
-                // Image preview test
-                _imageFile != null
-                    ? Text(path.basename(_imageFile!.path))
-                    : const Text('No image Selected'),
-                const SizedBox(height: 8),
-                const Text(
-                  'Upload Picture',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.only(right: 180),
+                child: OutlinedButton(
+                  onPressed: pickImage,
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(
+                        color: Color.fromARGB(255, 255, 204, 0), width: 2),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero),
+                  ),
+                  child: const Text(
+                    'Select File',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 255, 204, 0),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.only(right: 180),
-                  child: OutlinedButton(
-                    onPressed: pickImage,
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(
-                          color: Color.fromARGB(255, 255, 204, 0), width: 2),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero),
-                    ),
-                    child: const Text(
-                      'Select File',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 255, 204, 0),
-                          fontWeight: FontWeight.bold),
-                    ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 60),
+                child: ElevatedButton(
+                  onPressed: addItem,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 255, 204, 0),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 60),
-                  child: ElevatedButton(
-                    onPressed: addItem,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 204, 0),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    child: const Text(
-                      'Add Item',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
+                  child: const Text(
+                    'Add Item',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

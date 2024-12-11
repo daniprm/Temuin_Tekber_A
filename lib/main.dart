@@ -1,14 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:temuin/screens/pages/home_page.dart';
-import 'package:temuin/screens/pages/found_input.dart';
-import 'package:temuin/screens/pages/lost/lost_screen.dart';
-import 'package:temuin/screens/pages/profile.dart';
+import 'package:Temuin/screens/pages/home_page.dart';
+import 'package:Temuin/screens/pages/found_input.dart';
+import 'package:Temuin/screens/pages/lost/lost_screen.dart';
+import 'package:Temuin/screens/pages/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:temuin/screens/pages/taken/taken_screen.dart';
-import 'package:temuin/screens/pages/wrapper.dart';
-import 'package:temuin/services/auth.dart';
+import 'package:Temuin/screens/pages/taken/taken_screen.dart';
+import 'package:Temuin/screens/pages/wrapper.dart';
 import 'firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
@@ -42,8 +41,7 @@ class Temuin extends StatelessWidget {
 }
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
-  final AuthService _auth = AuthService();
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -53,10 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 2;
 
   final List<Widget> _children = [
-    LostPage(),
-    FoundInputScreen(),
-    HomePage(),
-    TakenPage(),
+    const LostPage(),
+    const FoundInputScreen(),
+    const HomePage(),
+    const TakenPage(),
     ProfileScreen(),
   ];
 

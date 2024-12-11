@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:temuin/screens/pages/lost/lost_edit.dart';
-import 'package:temuin/services/auth.dart';
-import 'package:temuin/services/database.dart';
+import 'package:Temuin/screens/pages/lost/lost_edit.dart';
+import 'package:Temuin/services/auth.dart';
+import 'package:Temuin/services/database.dart';
 
 class LostDetailScreen extends StatelessWidget {
   final String name;
   final String category;
   final String location;
   final DateTime date;
-  final String image;
+  final String imageUrl;
+  final String imgPath;
   final String itemId;
   final String founderId;
   final String formattedDate;
@@ -19,7 +20,8 @@ class LostDetailScreen extends StatelessWidget {
       required this.category,
       required this.location,
       required this.date,
-      required this.image,
+      required this.imageUrl,
+      required this.imgPath,
       required this.itemId,
       required this.founderId,
       required this.formattedDate});
@@ -30,15 +32,15 @@ class LostDetailScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    final userId = AuthService().getCurrentUser()?.uid;
+    final user = AuthService().getCurrentUser();
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(21, 21, 21, 1),
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
-          name,
-          style: const TextStyle(
+        title: const Text(
+          'Item Details',
+          style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -55,7 +57,7 @@ class LostDetailScreen extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
-                  image,
+                  imageUrl,
                   height: 150,
                   width: 150,
                   fit: BoxFit.cover,
@@ -120,6 +122,23 @@ class LostDetailScreen extends StatelessWidget {
                 style: const TextStyle(color: Colors.white),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: TextFormField(
+                initialValue: user?.displayName,
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Found By',
+                  labelStyle: const TextStyle(color: Colors.white),
+                  filled: true,
+                  fillColor: Colors.grey[800],
+                  border: const OutlineInputBorder(),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
 
             // Date Field
             Padding(
@@ -155,14 +174,11 @@ class LostDetailScreen extends StatelessWidget {
                     onPressed: () async {
                       final confirm = await showDialog<Map<String, dynamic>>(
                         context: context,
-                        builder: (context) => NameConfirmationDialog(),
+                        builder: (context) => const NameConfirmationDialog(),
                       );
 
-                      print(confirm);
-
-                      // Jika pengguna menekan "Ambil"
                       if (confirm != null && confirm['confirmed'] == true) {
-                        dynamic result = await DatabaseService(uid: userId)
+                        dynamic result = await DatabaseService(uid: user?.uid)
                             .takeLostItem(itemId, confirm['name']);
                         if (result == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -201,7 +217,7 @@ class LostDetailScreen extends StatelessWidget {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      if (userId != founderId) {
+                      if (user?.uid != founderId) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(
@@ -220,7 +236,8 @@ class LostDetailScreen extends StatelessWidget {
                                     category: category,
                                     location: location,
                                     date: date,
-                                    image: image,
+                                    imageUrl: imageUrl,
+                                    imgPath: imgPath,
                                     formattedDate: formattedDate,
                                     itemId: itemId,
                                   )),

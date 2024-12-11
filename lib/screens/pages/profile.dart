@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:temuin/services/auth.dart';
+import 'package:Temuin/services/auth.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -36,7 +36,6 @@ class ProfileScreen extends StatelessWidget {
 
         // Mendapatkan data pengguna dari snapshot
         final userData = snapshot.data!.data() as Map<String, dynamic>;
-        final name = userData['name'] ?? 'No Name';
         final phone = userData['phone'] ?? 'No Phone';
 
         return Scaffold(
@@ -49,17 +48,17 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 40), // Spasi dari atas layar
                 const CircleAvatar(
                   radius: 50,
-                  backgroundColor: const Color.fromARGB(255, 255, 204, 0),
+                  backgroundColor: Color.fromARGB(255, 255, 204, 0),
                   child: Icon(Icons.person, size: 50, color: Colors.black),
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Halo, $name!',
+                  'Halo, ${user.displayName}!',
                   style: const TextStyle(
                       color: Color.fromARGB(255, 255, 204, 0), fontSize: 24),
                 ),
                 const SizedBox(height: 16),
-                buildProfileField(label: "Name", value: name),
+                buildProfileField(label: "Name", value: user.displayName ?? ''),
                 buildProfileField(label: "Email", value: user.email ?? ''),
                 buildProfileField(label: "Phone", value: phone),
                 const Spacer(), // Menekan elemen ke atas

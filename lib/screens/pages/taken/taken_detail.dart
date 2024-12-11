@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:temuin/services/auth.dart';
-import 'package:temuin/services/database.dart';
+import 'package:Temuin/services/auth.dart';
+import 'package:Temuin/services/database.dart';
 
 class TakenDetailScreen extends StatelessWidget {
   final String name;
   final String category;
   final String location;
   final DateTime date;
-  final String image;
+  final String imageUrl;
+  final String imgPath;
   final String itemId;
   final String founderId;
   final String formattedDate;
@@ -20,7 +21,8 @@ class TakenDetailScreen extends StatelessWidget {
       required this.category,
       required this.location,
       required this.date,
-      required this.image,
+      required this.imageUrl,
+      required this.imgPath,
       required this.itemId,
       required this.founderId,
       required this.formattedDate,
@@ -56,7 +58,7 @@ class TakenDetailScreen extends StatelessWidget {
           children: [
             Center(
               child: Image.network(
-                image,
+                imageUrl,
                 height: 150,
                 width: 150,
                 fit: BoxFit.cover,
@@ -204,21 +206,21 @@ class TakenDetailScreen extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Confirmation'),
-                            content: Text('Restore the item?'),
+                            title: const Text('Confirmation'),
+                            content: const Text('Restore the item?'),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pop(false); // Tidak jadi
                                 },
-                                child: Text('Cancel'),
+                                child: const Text('Cancel'),
                               ),
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop(true); // Konfirmasi
                                 },
-                                child: Text('Restore'),
+                                child: const Text('Restore'),
                               ),
                             ],
                           );
@@ -254,7 +256,7 @@ class TakenDetailScreen extends StatelessWidget {
                         }
                       }
                     },
-                    icon: Icon(Icons.restore_from_trash),
+                    icon: const Icon(Icons.restore_from_trash),
                     label: const Text("Restore"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 255, 204, 0),
@@ -282,8 +284,8 @@ class TakenDetailScreen extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Confirmation'),
-                              content: Text(
+                              title: const Text('Confirmation'),
+                              content: const Text(
                                   'the item will be permanently deleted. Are you sure want to delete the item?'),
                               actions: [
                                 TextButton(
@@ -291,14 +293,14 @@ class TakenDetailScreen extends StatelessWidget {
                                     Navigator.of(context)
                                         .pop(false); // Tidak jadi
                                   },
-                                  child: Text('Cancel'),
+                                  child: const Text('Cancel'),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context)
                                         .pop(true); // Konfirmasi
                                   },
-                                  child: Text('Delete'),
+                                  child: const Text('Delete'),
                                 ),
                               ],
                             );
@@ -308,7 +310,7 @@ class TakenDetailScreen extends StatelessWidget {
                         // Jika pengguna menekan "Ambil"
                         if (confirm == true) {
                           dynamic result = await DatabaseService(uid: userId)
-                              .deleteItem(itemId);
+                              .deleteItem(itemId, imgPath);
                           if (result == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -335,7 +337,7 @@ class TakenDetailScreen extends StatelessWidget {
                         }
                       }
                     },
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     label: const Text("Delete"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 255, 204, 0),

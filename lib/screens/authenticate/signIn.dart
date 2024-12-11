@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:temuin/screens/authenticate/forgotPass.dart';
-import 'package:temuin/services/auth.dart';
+import 'package:Temuin/screens/authenticate/forgotPass.dart';
+import 'package:Temuin/services/auth.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;

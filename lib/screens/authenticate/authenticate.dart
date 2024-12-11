@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:temuin/screens/authenticate/register.dart';
-import 'package:temuin/screens/authenticate/signIn.dart';
+import 'package:Temuin/screens/authenticate/register.dart';
+import 'package:Temuin/screens/authenticate/signIn.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({super.key});

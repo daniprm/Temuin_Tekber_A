@@ -1,15 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Untuk autentikasi pengguna
-import 'package:cloud_firestore/cloud_firestore.dart'; // Untuk Firestore
-import 'package:temuin/services/auth.dart';
-import 'package:temuin/services/database.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:Temuin/screens/pages/lost/lost_detail.dart';
+import 'package:Temuin/screens/pages/lost/lost_screen.dart';
+import 'package:Temuin/services/database.dart';
+import 'package:path/path.dart' as path;
 
 class LostEditScreen extends StatefulWidget {
   final String name;
   final String category;
   final String location;
   final DateTime date;
-  final String image;
+  final String imageUrl;
+  final String imgPath;
   final String formattedDate;
   final String itemId;
 
@@ -19,7 +24,8 @@ class LostEditScreen extends StatefulWidget {
     required this.category,
     required this.location,
     required this.date,
-    required this.image,
+    required this.imageUrl,
+    required this.imgPath,
     required this.formattedDate,
     required this.itemId,
   });
@@ -33,6 +39,25 @@ class LostEditScreenState extends State<LostEditScreen> {
   late TextEditingController categoryController;
   late TextEditingController locationController;
   late TextEditingController dateController;
+
+  File? _imageFile;
+  Future pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _imageFile = File(image.path);
+      });
+    }
+  }
+
+  Future updateImage() async {
+    if (_imageFile == null) return;
+
+    await Supabase.instance.client.storage.from('images').update(
+        widget.imgPath, _imageFile!,
+        fileOptions: const FileOptions(cacheControl: '3600', upsert: false));
+  }
 
   late DateTime selectedDate;
 
@@ -124,6 +149,8 @@ class LostEditScreenState extends State<LostEditScreen> {
             selectedDate,
           );
 
+          await updateImage();
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Item edited successfully!')),
           );
@@ -164,7 +191,7 @@ class LostEditScreenState extends State<LostEditScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.network(
-                    widget.image,
+                    widget.imageUrl,
                     height: 150,
                     width: 150,
                     fit: BoxFit.cover,
@@ -178,21 +205,18 @@ class LostEditScreenState extends State<LostEditScreen> {
                 validator: (value) =>
                     value!.isEmpty ? 'Please enter a name' : null,
               ),
-              const SizedBox(height: 16),
               _CustomTextField(
                 label: 'Location',
                 controller: locationController,
                 validator: (value) =>
                     value!.isEmpty ? 'Please enter a location' : null,
               ),
-              const SizedBox(height: 16),
               _CustomTextField(
                 label: 'Category',
                 controller: categoryController,
                 validator: (value) =>
                     value!.isEmpty ? 'Please enter a category' : null,
               ),
-              const SizedBox(height: 16),
               _CustomTextField(
                 label: 'Date',
                 controller: dateController,
@@ -200,6 +224,38 @@ class LostEditScreenState extends State<LostEditScreen> {
                     value!.isEmpty ? 'Please enter a date' : null,
                 prefixIcon: Icons.calendar_today,
                 onTap: selectDate,
+              ),
+              _imageFile != null
+                  ? Text(path.basename(_imageFile!.path))
+                  : const Text('No image Selected'),
+              const SizedBox(height: 5),
+              const Text(
+                'Upload Picture',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Padding(
+                padding: const EdgeInsets.only(right: 180),
+                child: OutlinedButton(
+                  onPressed: pickImage,
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(
+                        color: Color.fromARGB(255, 255, 204, 0), width: 2),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 24.0),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero),
+                  ),
+                  child: const Text(
+                    'Select File',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 255, 204, 0),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
               const Spacer(),
               Row(
@@ -214,7 +270,7 @@ class LostEditScreenState extends State<LostEditScreen> {
                       side: const BorderSide(
                           color: Color.fromARGB(255, 255, 204, 0)),
                       padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 24.0),
+                          vertical: 10.0, horizontal: 24.0),
                     ),
                     icon: const Icon(Icons.cancel),
                     label: const Text('Cancel'),
@@ -225,7 +281,7 @@ class LostEditScreenState extends State<LostEditScreen> {
                       backgroundColor: const Color.fromARGB(255, 255, 204, 0),
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 24.0),
+                          vertical: 10.0, horizontal: 24.0),
                     ),
                     icon: const Icon(Icons.save),
                     label: const Text('Save'),
@@ -267,7 +323,7 @@ class _CustomTextField extends StatelessWidget {
             fontSize: 15,
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
         TextFormField(
           validator: validator,
           controller: controller,
@@ -300,7 +356,7 @@ class _CustomTextField extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 14),
       ],
     );
   }

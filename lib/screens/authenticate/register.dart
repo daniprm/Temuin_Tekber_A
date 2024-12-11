@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:temuin/models/user.dart';
-import 'package:temuin/services/auth.dart';
+import 'package:Temuin/services/auth.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;

@@ -1,6 +1,6 @@
-import 'package:temuin/models/user.dart';
+import 'package:Temuin/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:temuin/services/database.dart';
+import 'package:Temuin/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -37,13 +37,13 @@ class AuthService {
         email: email,
         password: password,
       );
+      _auth.currentUser!.updateDisplayName(name);
       User? user = result.user;
       await user?.sendEmailVerification();
       await DatabaseService(uid: user!.uid).updateUserData(name, phone);
 
       return _userFromFirebaseUser(user);
     } catch (error) {
-      print(error.toString());
       return null;
     }
   }
@@ -62,7 +62,6 @@ class AuthService {
     try {
       return await _auth.signOut();
     } catch (error) {
-      print(error.toString());
       return null;
     }
   }
