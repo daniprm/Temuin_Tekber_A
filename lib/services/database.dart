@@ -41,6 +41,15 @@ class DatabaseService {
         .snapshots();
   }
 
+  // Contoh implementasi fungsi stream untuk nama founder
+  Stream<String?> getFounderNameStream(String founderId) {
+    return FirebaseFirestore.instance
+        .collection('userData')
+        .doc(founderId)
+        .snapshots()
+        .map((snapshot) => snapshot.data()?['name'] as String?);
+  }
+
   Future addLostItems(Map<String, Object?> itemData) async {
     await lostItemsCollection.add(itemData);
   }

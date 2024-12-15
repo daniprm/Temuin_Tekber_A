@@ -28,7 +28,6 @@ class LostDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get the screen width and height
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -53,6 +52,7 @@ class LostDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Image Section
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
@@ -122,21 +122,50 @@ class LostDetailScreen extends StatelessWidget {
                 style: const TextStyle(color: Colors.white),
               ),
             ),
+
+            // StreamBuilder for Founder Name
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: TextFormField(
-                initialValue: user?.displayName,
-                readOnly: true,
-                decoration: InputDecoration(
-                  labelText: 'Found By',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  filled: true,
-                  fillColor: Colors.grey[800],
-                  border: const OutlineInputBorder(),
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-                style: const TextStyle(color: Colors.white),
+              child: StreamBuilder<String?>(
+                stream: DatabaseService().getFounderNameStream(founderId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: Text(
+                        'Error fetching data',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No lost items found',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  }
+                  final founderName = snapshot.data ?? 'Unknown';
+                  return TextFormField(
+                    readOnly: true,
+                    initialValue: founderName,
+                    decoration: InputDecoration(
+                      labelText: 'Found By',
+                      labelStyle: const TextStyle(color: Colors.white),
+                      filled: true,
+                      fillColor: Colors.grey[800],
+                      border: const OutlineInputBorder(),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                    ),
+                    style: const TextStyle(color: Colors.white),
+                  );
+                },
               ),
             ),
 
@@ -267,7 +296,7 @@ class LostDetailScreen extends StatelessWidget {
 }
 
 class NameConfirmationDialog extends StatefulWidget {
-  const NameConfirmationDialog({Key? key}) : super(key: key);
+  const NameConfirmationDialog({super.key});
 
   @override
   State<NameConfirmationDialog> createState() => _NameConfirmationDialogState();

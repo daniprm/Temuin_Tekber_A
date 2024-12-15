@@ -39,10 +39,21 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    '1. Tap "Looking for Something?" to report lost items.\n'
-                    '2. Tap "Found Something?" to report found items.\n'
-                    '3. Check matching items to coordinate returns.\n'
-                    '4. Use contact information to connect with others.',
+                    r"""
+For Those Looking for Lost Items
+1. Tap the "Looking for Something?" button on the homepage to check if your lost item is listed in the app.  
+2. Browse the list of found items. Tap on an item to view its details and confirm if it matches your lost item.  
+3. If you find your item, tap the "Take" button on the item details page to confirm the retrieval process.  
+
+---
+
+For Those Who Found an Item
+1. Tap the "Found Something?" button to report an item you’ve found. 
+2. Fill in the item details, such as description, location found, and a photo (if possible).  
+3. After completing the details, tap the "Add Item" button on the found item input page to submit the report.  
+
+By following these steps, you can help reunite lost items with their rightful owners and make the lost-and-found process seamless.
+  """,
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 14,

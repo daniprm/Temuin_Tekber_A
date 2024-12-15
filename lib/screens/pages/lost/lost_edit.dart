@@ -135,11 +135,11 @@ class LostEditScreenState extends State<LostEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     // Fungsi untuk menyimpan item
     void editItem() async {
-      if (_formKey.currentState!.validate()) {
+      if (formKey.currentState!.validate()) {
         try {
           await DatabaseService().editItem(
             widget.itemId,
@@ -183,7 +183,7 @@ class LostEditScreenState extends State<LostEditScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
